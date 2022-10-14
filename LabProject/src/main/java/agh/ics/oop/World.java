@@ -1,7 +1,7 @@
 package agh.ics.oop;
 
 public class World {
-    public static void run (Direction[] directions){
+    public static void run (MoveDirection[] directions){
 //        for(int i=0; i<directions.length; i++){
 //            if (i>0){
 //                System.out.print(", ");
@@ -10,7 +10,7 @@ public class World {
 //        }
 //        String joinedDirections = String.join(", ", directions);
 //        System.out.println(joinedDirections);
-        for (Direction direction: directions){
+        for (MoveDirection direction: directions){
 //            switch (direction){
 //                case "f" -> System.out.println("Zwierzak idzie do przodu");
 //                case "b" -> System.out.println("Zwierzak idzie do tyłu");
@@ -24,28 +24,48 @@ public class World {
                 case RIGHT -> "Zwierzak idzie w prawo";
                 default -> null;
             };
-            System.out.println(text);
+            if (text!=null) {System.out.println(text);}
+
         }
 
     }
-    public static Direction[] translate (String[] args){
-        Direction[] directions = new Direction[args.length];
+    public static MoveDirection[] translate (String[] args){
+        MoveDirection[] directions = new MoveDirection[args.length];
         for (int i=0;i<args.length; i++){
             directions[i]= switch(args[i]){
-                case "f" -> Direction.FORWARD;
-                case "b" -> Direction.BACKWARD;
-                case "l" -> Direction.LEFT;
-                case "r" -> Direction.RIGHT;
+                case "f" -> MoveDirection.FORWARD;
+                case "b" -> MoveDirection.BACKWARD;
+                case "l" -> MoveDirection.LEFT;
+                case "r" -> MoveDirection.RIGHT;
                 default -> null;
             };
         }
         return directions;
     }
     public static void main(String[] args) {
-        Direction[] directions = translate(args);
+        MoveDirection[] directions = translate(args);
         System.out.println("System startuje");
         run(directions);
         System.out.println("System zakonczyl dzialanie");
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        MapDirection d1= MapDirection.NORTH;
+        System.out.println(d1);
+        MapDirection d2=d1.next();
+        System.out.println(d2);
+        MapDirection d3=d1.previous();
+        System.out.println(d3);
+        Vector2d v1=d1.toUnitVector();
+        Vector2d v2=d2.toUnitVector();
+        Vector2d v3=d3.toUnitVector();
+        System.out.println(v1);
+        System.out.println(v2);
+        System.out.println(v3);
     }
 
 }
