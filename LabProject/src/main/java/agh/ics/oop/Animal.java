@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
 public class Animal {
+    private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
+    private static final Vector2d UPPER_BOUND = new Vector2d(4,4);
     private MapDirection direction;
     private Vector2d location;
 
@@ -36,13 +38,10 @@ public class Animal {
                     directionVector = directionVector.opposite();
                 }
                 Vector2d newLocation = this.location.add(directionVector);
-                if (newLocation.precedes(new Vector2d(4, 4)) && newLocation.follows(new Vector2d(0, 0))) {
+                if (newLocation.precedes(UPPER_BOUND) && newLocation.follows(LOWER_BOUND)) {
                     this.location = newLocation;
                 }
             }
         }
     }
-
-
-
 }
