@@ -11,13 +11,18 @@ public class World {
 //        timon.move(MoveDirection.FORWARD);
 //        timon.move(MoveDirection.FORWARD);
 //        System.out.println(timon.toString());
-        MoveDirection[] orders=OptionsParser.parse(args);
-        Animal pumba = new Animal();
-        System.out.println(pumba);
-        for(int i=0;i<orders.length;i++){
-            pumba.move(orders[i]);
-            System.out.println(pumba);
-        }
+//        MoveDirection[] orders=OptionsParser.parse(args);
+//        Animal pumba = new Animal();
+//        System.out.println(pumba);
+//        for(int i=0;i<orders.length;i++){
+//            pumba.move(orders[i]);
+//            System.out.println(pumba);
+//        }
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        System.out.println(map);
     }
-
 }
