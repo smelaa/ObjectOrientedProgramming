@@ -1,4 +1,4 @@
-# ObjectOrientedProgrammingLab
+# ObjectOrientedProgramming
 The repository with solutions from Object oriented programming (Programowanie obiektowe) lab classes at the AGH UST.\
 The leading programming language during this course: Java
 
