@@ -6,11 +6,7 @@ public class Animal {
     private MapDirection direction;
     private IWorldMap map;
     private Vector2d position;
-    public Animal(IWorldMap map)
-    {
-        this.map = map;
-        this.direction = MapDirection.NORTH;
-    }
+    public Animal(IWorldMap map) {this(map, new Vector2d(2,2));}
 
     public Animal(IWorldMap map, Vector2d initialPosition)
     {
@@ -52,7 +48,7 @@ public class Animal {
                     directionVector = directionVector.opposite();
                 }
                 Vector2d newLocation = this.position.add(directionVector);
-                if (this.map.canMoveTo(newLocation)&&!this.map.isOccupied(newLocation)) {
+                if (this.map.canMoveTo(newLocation)) {
                     this.position = newLocation;
                 }}}
     }

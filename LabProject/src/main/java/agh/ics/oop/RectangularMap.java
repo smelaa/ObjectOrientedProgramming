@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectangularMap implements IWorldMap{
-    int width;
-    int height;
+    private final int width;
+    private final int height;
 
     private final List<Animal> animalsOnMap= new ArrayList<>();
 
@@ -22,17 +22,10 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(width, height));
+        return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(width, height)) && !isOccupied(position);
     }
     @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal currAnimal : animalsOnMap){
-            if(currAnimal.getPosition().equals(position)){
-                return true;
-            }
-        }
-        return false;
-    }
+    public boolean isOccupied(Vector2d position) {return (objectAt(position)!=null);}
     @Override
     public boolean place(Animal animal) {
         if (!this.isOccupied(animal.getPosition()) && this.canMoveTo(animal.getPosition())){
