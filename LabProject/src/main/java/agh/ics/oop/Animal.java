@@ -50,6 +50,7 @@ public class Animal implements IMapElement{
                 Vector2d newLocation = this.position.add(directionVector);
                 if (this.map.canMoveTo(newLocation)) {
                     this.position = newLocation;
+                    map.moveOnMap(newLocation);
                 }}}
     }
 

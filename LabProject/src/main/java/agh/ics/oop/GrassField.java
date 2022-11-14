@@ -52,5 +52,13 @@ public class GrassField extends AbstractWorldMap{
         return lowerLeft;
     }
 
-
+    @Override
+    public void moveOnMap(Vector2d position){
+        for (Grass grass: grassOnField){
+            if (grass.getPosition()==position){
+                grassOnField.remove(grass);
+                seedRandomGrass();
+            }
+        }
+    }
 }
