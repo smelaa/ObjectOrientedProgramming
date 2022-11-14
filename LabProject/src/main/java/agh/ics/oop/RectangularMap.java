@@ -28,7 +28,7 @@ public class RectangularMap implements IWorldMap{
     public boolean isOccupied(Vector2d position) {return (objectAt(position)!=null);}
     @Override
     public boolean place(Animal animal) {
-        if (!this.isOccupied(animal.getPosition()) && this.canMoveTo(animal.getPosition())){
+        if (this.canMoveTo(animal.getPosition())){
             animalsOnMap.add(animal);
             return true;
         }
