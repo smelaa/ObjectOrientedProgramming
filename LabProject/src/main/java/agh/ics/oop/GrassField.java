@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.lang.Math;
 
-public class GrassField implements IWorldMap{
+public class GrassField extends AbstractWorldMap{
     private final int amountOfGrasses;
-    private final List<Animal> animalsOnField= new ArrayList<>();
-    private final List<Grass> grassOnField= new ArrayList<>();
 
     public GrassField(int amountOfGrasses){
         this.amountOfGrasses=amountOfGrasses;
@@ -31,49 +29,28 @@ public class GrassField implements IWorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if (this.canMoveTo(animal.getPosition())){
-            animalsOnField.add(animal);
-            return true;
-        }
-        return false;
-    }
-
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position)!=null;
-    }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal currAnimal : animalsOnField){
-            if(currAnimal.getPosition().equals(position)){
-                return currAnimal;
-            }
-        }
-        for (Grass currGrass : grassOnField){
-            if(currGrass.getPosition().equals(position)){
-                return currGrass;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        MapVisualizer mapVisualizer = new MapVisualizer(this);
-        Vector2d lowerLeft= animalsOnField.get(0).getPosition();
-        Vector2d upperRight = animalsOnField.get(0).getPosition();
+    public Vector2d findLowerLeftBound() {
+        Vector2d upperRight = animalsOnField.get(1).getPosition();
         for (Animal animal: animalsOnField){
             upperRight=animal.getPosition().upperRight(upperRight);
-            lowerLeft=animal.getPosition().lowerLeft(lowerLeft);
         }
         for (Grass grass: grassOnField){
             upperRight=grass.getPosition().upperRight(upperRight);
+        }
+        return upperRight;
+    }
+
+    @Override
+    public Vector2d findUpperRightBound() {
+        Vector2d lowerLeft= animalsOnField.get(1).getPosition();
+        for (Animal animal: animalsOnField){
+            lowerLeft=animal.getPosition().lowerLeft(lowerLeft);
+        }
+        for (Grass grass: grassOnField){
             lowerLeft=grass.getPosition().lowerLeft(lowerLeft);
         }
-        return mapVisualizer.draw(lowerLeft,upperRight);
+        return lowerLeft;
     }
+
 
 }

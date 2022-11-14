@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal implements IMapElement{
     private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
     private static final Vector2d UPPER_BOUND = new Vector2d(4,4);
     private MapDirection direction;

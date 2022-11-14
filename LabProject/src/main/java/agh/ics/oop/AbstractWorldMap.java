@@ -6,8 +6,6 @@ import java.util.List;
 public abstract class AbstractWorldMap implements IWorldMap{
     protected List<Animal> animalsOnField= new ArrayList<>();
     protected List<Grass> grassOnField= new ArrayList<>();
-    protected Vector2d lowerLeft;
-    protected Vector2d upperRight;
 
     @Override
     public boolean place(Animal animal) {
@@ -34,20 +32,11 @@ public abstract class AbstractWorldMap implements IWorldMap{
         return null;
     }
 
-    public void findBounds(){
-        for (Animal animal: animalsOnField){
-            upperRight=animal.getPosition().upperRight(upperRight);
-            lowerLeft=animal.getPosition().lowerLeft(lowerLeft);
-        }
-        for (Grass grass: grassOnField){
-            upperRight=grass.getPosition().upperRight(upperRight);
-            lowerLeft=grass.getPosition().lowerLeft(lowerLeft);
-        }
-    }
+    public abstract Vector2d findLowerLeftBound();
+    public abstract Vector2d findUpperRightBound();
 
     public String toString() {
         MapVisualizer mapVisualizer=new MapVisualizer(this);
-        findBounds();
-        return mapVisualizer.draw(lowerLeft, upperRight);
+        return mapVisualizer.draw(findLowerLeftBound(), findUpperRightBound());
     }
 }
