@@ -6,23 +6,37 @@ import java.util.Random;
 import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap{
-    private final int amountOfGrasses;
+    protected List<Grass> grassOnField= new ArrayList<>();
 
     public GrassField(int amountOfGrasses){
-        this.amountOfGrasses=amountOfGrasses;
         for (int  i=0; i<amountOfGrasses;i++){seedRandomGrass();}
     }
 
     public void seedRandomGrass(){
-        Random rand = new Random();
-        int x=rand.nextInt((int) Math.sqrt(amountOfGrasses*10)+1);
-        int y=rand.nextInt((int) Math.sqrt(amountOfGrasses*10)+1);
-        Vector2d newGrassPosition=new Vector2d(x,y);
-        if (!isOccupied(newGrassPosition)){
-            grassOnField.add(new Grass(newGrassPosition));
+        List<Vector2d> freeSpots= new ArrayList<>();
+        for (int i=0;i<grassOnField.size()*10+1; i++){
+            for (int j=0;j<grassOnField.size()*10+1;j++){
+                Vector2d currSpot=new Vector2d(i,j);
+                if (!isOccupied(currSpot)){freeSpots.add(currSpot);}
+            }
         }
+        Random rand = new Random();
+        int ix = rand.nextInt((int) Math.sqrt(freeSpots.size()));
+        grassOnField.add(new Grass(freeSpots.get(ix)));
     }
-
+    @Override
+    public Object objectAt(Vector2d position) {
+        Object mapObject = super.objectAt(position);
+        if (mapObject == null) {
+            for (Grass currGrass : grassOnField) {
+                if (currGrass.getPosition().equals(position)) {
+                    return currGrass;
+                }
+            }
+        }
+        return mapObject;
+    }
+    @Override
     public boolean canMoveTo(Vector2d position) {
         Object obj = objectAt(position);
         return obj==null || !(obj instanceof Animal);
