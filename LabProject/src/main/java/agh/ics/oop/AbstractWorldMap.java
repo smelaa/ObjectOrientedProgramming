@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 
-public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+public abstract class AbstractWorldMap implements IWorldMap{
     //protected List<Animal> animalsOnField= new ArrayList<>();
     protected HashMap<Vector2d,Animal> animalsOnField = new HashMap<>();
     @Override
@@ -17,12 +17,13 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public boolean isOccupied(Vector2d position) {return (objectAt(position)!=null);}
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if (this.canMoveTo(animal.getPosition())){
             animalsOnField.put(animal.getPosition(),animal);
+            animal.addObserver(this);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("cannot place animal on"+animal.getPosition());
     }
     protected abstract Vector2d findLowerLeftBound();
     protected abstract Vector2d findUpperRightBound();
@@ -34,11 +35,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     @Override
     public Object objectAt(Vector2d position) {
-        for (Vector2d currPossition : animalsOnField.keySet()){
-            if(currPossition.equals(position)){
-                return animalsOnField.get(currPossition);
-            }
-        }
-        return null;
+        return animalsOnField.get(position);
     }
 }
