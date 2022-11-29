@@ -25,8 +25,8 @@ public abstract class AbstractWorldMap implements IWorldMap{
         }
         throw new IllegalArgumentException("cannot place animal on"+animal.getPosition());
     }
-    protected abstract Vector2d findLowerLeftBound();
-    protected abstract Vector2d findUpperRightBound();
+    public abstract Vector2d findLowerLeftBound();
+    public abstract Vector2d findUpperRightBound();
 
     @Override
     public String toString() {
