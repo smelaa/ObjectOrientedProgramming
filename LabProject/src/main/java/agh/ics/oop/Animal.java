@@ -1,11 +1,14 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Animal implements IMapElement{
-    private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
-    private static final Vector2d UPPER_BOUND = new Vector2d(4,4);
     private MapDirection direction;
     private IWorldMap map;
     private Vector2d position;
+
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList();
     public Animal(IWorldMap map) {this(map, new Vector2d(2,2));}
 
     public Animal(IWorldMap map, Vector2d initialPosition)
@@ -38,6 +41,19 @@ public class Animal implements IMapElement{
         return (this.position.equals(position));
     }
 
+    public void addObserver(IPositionChangeObserver observer){
+        observers.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer){
+        observers.remove(observer);
+    }
+
+    private void positionChanged(Vector2d oldposition, Vector2d newposition){
+        for(IPositionChangeObserver observer:observers){
+            observer.positionChanged(oldposition,newposition);
+        }
+    }
     public void move(MoveDirection direction){
         switch(direction) {
             case RIGHT -> this.direction = this.direction.next();
@@ -49,8 +65,8 @@ public class Animal implements IMapElement{
                 }
                 Vector2d newLocation = this.position.add(directionVector);
                 if (this.map.canMoveTo(newLocation)) {
+                    positionChanged(this.position, newLocation);
                     this.position = newLocation;
-                    map.moveOnMap(newLocation);
                 }}}
     }
 

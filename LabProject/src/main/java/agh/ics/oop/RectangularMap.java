@@ -20,12 +20,12 @@ public class RectangularMap extends AbstractWorldMap{
     }
 
     @Override
-    public Vector2d findLowerLeftBound() {
+    protected Vector2d findLowerLeftBound() {
         return new Vector2d(0,0);
     }
 
     @Override
-    public Vector2d findUpperRightBound() {
+    protected Vector2d findUpperRightBound() {
         return new Vector2d(width, height);
     }
 
