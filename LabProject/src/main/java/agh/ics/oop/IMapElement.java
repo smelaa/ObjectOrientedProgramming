@@ -7,4 +7,6 @@ public interface IMapElement {
     MapElementInstance getInstance();
 
     void addObserver(IPositionChangeObserver observer);
+
+    String getImageName();
 }

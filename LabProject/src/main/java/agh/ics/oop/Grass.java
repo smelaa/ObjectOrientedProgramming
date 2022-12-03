@@ -18,4 +18,9 @@ public class Grass implements IMapElement{
     @Override
     public void addObserver(IPositionChangeObserver observer){}
 
+    @Override
+    public String getImageName() {
+        return "src/main/resources/grass.png";
+    }
+
 }

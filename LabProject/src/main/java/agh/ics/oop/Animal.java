@@ -48,6 +48,17 @@ public class Animal implements IMapElement{
         observers.add(observer);
     }
 
+    @Override
+    public String getImageName() {
+        switch(direction) {
+            case SOUTH-> {return "src/main/resources/down.png";}
+            case NORTH -> {return "src/main/resources/up.png";}
+            case WEST -> {return "src/main/resources/left.png";}
+            case EAST-> {return "src/main/resources/right.png";}
+        }
+        return null;
+    }
+
     public void removeObserver(IPositionChangeObserver observer){
         observers.remove(observer);
     }

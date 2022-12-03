@@ -39,8 +39,8 @@ public class GrassField extends AbstractWorldMap{
         throw new IllegalArgumentException("cannot place animal on"+animal.getPosition());
     }
     @Override
-    public Object objectAt(Vector2d position) {
-        Object mapObject = super.objectAt(position);
+    public IMapElement objectAt(Vector2d position) {
+        IMapElement mapObject = super.objectAt(position);
         if (mapObject == null) {
             return grassOnField.get(position);
         }
