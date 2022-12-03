@@ -5,11 +5,10 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -17,27 +16,35 @@ import java.util.ArrayList;
 public class App extends Application implements IPositionChangeObserver{
     private AbstractWorldMap map;
     private GridPane grid = new GridPane();
+
+    private VBox boox=new VBox(addStartButton(), grid);
     private int minX;
     private int minY;
     private int maxX;
     private int maxY;
     private int height=50;
     private int width=50;
+    private SimulationEngine engine;
+
     @Override
     public void init() throws Exception{
         try {
             String[] args = getParameters().getRaw().toArray(new String[0]);
-            ArrayList<MoveDirection> directions = new OptionsParser().parse(args);
             map = new GrassField(10);
             Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
-            SimulationEngine engine = new SimulationEngine(directions, map, positions, this);
+            engine = new SimulationEngine( map, positions, this);
             engine.setMoveDelay(300);
-            Thread thread = new Thread(engine);
-            thread.start();
         }
         catch (IllegalArgumentException exception){
             exception.printStackTrace();
         }
+    }
+    
+    public void runEngine(String args){
+        ArrayList<MoveDirection> directions = new OptionsParser().parse(args.split(" "));
+        engine.setDirections(directions);
+        Thread engineThread = new Thread(engine);
+        engineThread.start();
     }
     public void updateBounds(){
         minX=map.findLowerLeftBound().x;
@@ -85,6 +92,17 @@ public class App extends Application implements IPositionChangeObserver{
         }
     }
 
+    public VBox addStartButton(){
+        TextField textField = new TextField();
+        Button button = new Button("START");
+        button.setOnAction(action -> {
+            String givenArgs= textField.getText();
+            runEngine(givenArgs);
+        });
+        return new VBox(textField, button);
+    }
+
+
     public void renderGrid(){
         updateBounds();
         grid.getChildren().clear();
@@ -93,7 +111,6 @@ public class App extends Application implements IPositionChangeObserver{
         addColumnsLabels();
         addRowsLabels();
         addObjects();
-
     }
 
     @Override
@@ -103,27 +120,9 @@ public class App extends Application implements IPositionChangeObserver{
 
     public void start(Stage primaryStage){
         renderGrid();
-        Scene currentScene=new Scene(grid, (20)*width, (20)*height);
+        Scene currentScene=new Scene(boox, 20*width, 20*height);
         primaryStage.setScene(currentScene);
         primaryStage.show();
-//        Thread engineThread = new Thread(new Runnable(){
-//            @Override
-//            public void run()
-//            {
-//                for(int i = 0; i < engine.getDirectionLength(); i++)
-//                {
-//                    try {
-//                        Thread.sleep(moveDelay);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Platform.runLater(engine);
-//                }
-//            }
-//        }
-//        );
 //
-//        engineThread.setDaemon(true);
-//        engineThread.start();
     }
 }
