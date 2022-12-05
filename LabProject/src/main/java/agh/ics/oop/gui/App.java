@@ -17,7 +17,7 @@ public class App extends Application implements IPositionChangeObserver{
     private AbstractWorldMap map;
     private GridPane grid = new GridPane();
 
-    private VBox boox=new VBox(addStartButton(), grid);
+    private VBox box=new VBox(addStartButton(), grid);
     private int minX;
     private int minY;
     private int maxX;
@@ -105,7 +105,10 @@ public class App extends Application implements IPositionChangeObserver{
 
     public void renderGrid(){
         updateBounds();
+        grid.setGridLinesVisible(false);
         grid.getChildren().clear();
+        grid.getColumnConstraints().clear();
+        grid.getRowConstraints().clear();
         grid.setGridLinesVisible(true);
         addLabelXY();
         addColumnsLabels();
@@ -120,7 +123,7 @@ public class App extends Application implements IPositionChangeObserver{
 
     public void start(Stage primaryStage){
         renderGrid();
-        Scene currentScene=new Scene(boox, 20*width, 20*height);
+        Scene currentScene=new Scene(box, 20*width, 20*height);
         primaryStage.setScene(currentScene);
         primaryStage.show();
 //
