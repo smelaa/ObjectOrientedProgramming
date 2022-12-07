@@ -1,10 +1,11 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] directions){
+    public static ArrayList<MoveDirection> parse(String[] directions) throws IllegalArgumentException{
 
         /*
         //mamy strumień informacji i zamieniamy na tablicę
@@ -21,18 +22,16 @@ public class OptionsParser {
          */
 
 
-        MoveDirection[] result = new MoveDirection[directions.length];
-        int idx=0;
+        ArrayList<MoveDirection> result = new ArrayList<>();
         for(int i=0;i<directions.length;i++){
             switch(directions[i]){
-                case "f","forward" -> {result[idx] = MoveDirection.FORWARD; idx++;}
-                case "b", "backword" -> {result[idx]=MoveDirection.BACKWARD; idx++;}
-                case "r", "right" -> {result[idx]=MoveDirection.RIGHT; idx++;}
-                case "l","left" -> {result[idx]=MoveDirection.LEFT; idx++;}
-                default -> {continue;}
+                case "f","forward" -> result.add(MoveDirection.FORWARD);
+                case "b", "backword" -> result.add(MoveDirection.BACKWARD);
+                case "r", "right" -> result.add(MoveDirection.RIGHT);
+                case "l","left" -> result.add(MoveDirection.LEFT);
+                default -> throw new IllegalArgumentException(directions[i] + " is not legal move specification");
             }
         }
-        result=Arrays.copyOfRange(result,0,idx);
         return result;
     }
 }

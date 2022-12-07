@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationEngine implements IEngine{
-    public MoveDirection[] directions;
-    public AbstractWorldMap map;
+    public ArrayList<MoveDirection> directions;
+    public IWorldMap map;
     public Vector2d[] initialAnimalsPositions;
     private final List<Animal> animals= new ArrayList<>();
-    public SimulationEngine(MoveDirection[] directions, AbstractWorldMap map, Vector2d[] initialAnimalsPositions){
+    public SimulationEngine(ArrayList<MoveDirection> directions, IWorldMap map, Vector2d[] initialAnimalsPositions){
         this.directions=directions;
         this.map=map;
         this.initialAnimalsPositions=initialAnimalsPositions;
@@ -16,15 +16,14 @@ public class SimulationEngine implements IEngine{
             Animal animal=new Animal(map, currPosition);
             if(map.place(animal)){
                 animals.add(animal);
-                animal.addObserver(map);
             }
         }
     }
     @Override
     public void run() {
         int numbersOfAnimals=animals.size();
-        for (int i=0;i<directions.length;i++){
-            animals.get(i%numbersOfAnimals).move(directions[i]);
+        for (int i=0;i<directions.size();i++){
+            animals.get(i%numbersOfAnimals).move(directions.get(i));
         }
     }
 }
