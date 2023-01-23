@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation(group = "io.kotest", name = "kotest-runner-junit5", version = "5.5.4")
+    testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = "5.5.4")
 }
 
 tasks.test {
@@ -27,3 +29,4 @@ tasks.withType<KotlinCompile> {
 application {
     mainClass.set("MainKt")
 }
+
