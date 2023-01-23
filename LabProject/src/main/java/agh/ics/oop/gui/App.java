@@ -22,8 +22,8 @@ public class App extends Application implements IPositionChangeObserver{
     private int minY;
     private int maxX;
     private int maxY;
-    private int height=50;
-    private int width=50;
+    private static int height=50;
+    private static int width=50;
     private SimulationEngine engine;
 
     @Override
